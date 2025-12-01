@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="ProcureRiskAnalyzer.Client.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:views="clr-namespace:ProcureRiskAnalyzer.Client.Views"
+    Title="Procure Risk Analyzer">
+
+    <ShellContent
+        Title="Login"
+        ContentTemplate="{DataTemplate views:LoginPage}"
+        Route="login" />
+
+    <ShellContent
+        Title="Home"
+        ContentTemplate="{DataTemplate views:MainPage}"
+        Route="main" />
+
+    <ShellContent
+        Title="Suppliers"
+        ContentTemplate="{DataTemplate views:SuppliersPage}"
+        Route="suppliers" />
+
+    <ShellContent
+        Title="Tenders"
+        ContentTemplate="{DataTemplate views:TendersPage}"
+        Route="tenders" />
+
+    <ShellContent
+        Title="Categories"
+        ContentTemplate="{DataTemplate views:CategoriesPage}"
+        Route="categories" />
+
+    <ShellContent
+        Title="Statistics"
+        ContentTemplate="{DataTemplate views:StatisticsPage}"
+        Route="statistics" />
+
+    <ShellContent
+        Title="About"
+        ContentTemplate="{DataTemplate views:AboutPage}"
+        Route="about" />
+
+    <ShellContent
+        Title="Profile"
+        ContentTemplate="{DataTemplate views:ProfilePage}"
+        Route="profile" />
+
+</Shell>
