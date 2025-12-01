@@ -2,7 +2,49 @@
     ViewData["Title"] = "Профіль користувача";
 }
 
-<h2>Вітаємо, @User.Identity?.Name!</h2>
-<p>Ви успішно авторизувались через Okta OAuth2 🎉</p>
-
-<a href="/Auth/Logout">Вийти</a>
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0">Профіль користувача</h3>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <h5>Вітаємо, <strong>@User.Identity?.Name</strong>!</h5>
+                        <p class="text-success">✅ Ви успішно авторизувались через Okta OAuth2</p>
+                    </div>
+                    
+                    <hr />
+                    
+                    <div class="mb-3">
+                        <label class="fw-bold">Ім'я користувача:</label>
+                        <p class="text-primary">@User.Identity?.Name</p>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="fw-bold">Email:</label>
+                        <p>@(User.FindFirst(System.Security.Claims.ClaimTypes.Email)?.Value ?? "Не вказано")</p>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="fw-bold">Статус аутентифікації:</label>
+                        <p class="text-success">✅ Авторизований</p>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="fw-bold">Метод аутентифікації:</label>
+                        <p>Okta OAuth2</p>
+                    </div>
+                    
+                    <hr />
+                    
+                    <div class="d-flex gap-2">
+                        <a href="/" class="btn btn-secondary">На головну</a>
+                        <a href="/Auth/Logout" class="btn btn-danger">Вийти</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

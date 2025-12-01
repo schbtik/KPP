@@ -5,5 +5,18 @@
 <h1>ProcureRiskAnalyzer</h1>
 <p>Кросплатформений веб-застосунок для аналізу державних закупівель та виявлення корупційних ризиків.</p>
 
-<a href="/Auth/Login">Увійти</a> |
-<a href="/Auth/Register">Зареєструватися</a>
+@if (User.Identity?.IsAuthenticated == true)
+{
+    <div class="alert alert-success mt-3">
+        <h5>Вітаємо, <strong>@User.Identity.Name</strong>!</h5>
+        <p>Ви успішно авторизовані через Okta.</p>
+        <a href="/Auth/Profile" class="btn btn-primary">Перейти до профілю</a>
+        <a href="/Auth/Logout" class="btn btn-secondary">Вийти</a>
+    </div>
+}
+else
+{
+    <div class="mt-3">
+        <a href="/Auth/Login" class="btn btn-primary">Увійти через Okta</a>
+    </div>
+}

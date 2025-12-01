@@ -6,7 +6,7 @@ using ProcureRiskAnalyzer.Web.Models;
 namespace ProcureRiskAnalyzer.Web.Controllers
 {
     [ApiController]
-    [Route("api/v1/[controller]")]
+    [Route("api/[controller]")]
     public class SuppliersApiController : ControllerBase
     {
         private readonly AppDbContext _context;
@@ -76,6 +76,17 @@ namespace ProcureRiskAnalyzer.Web.Controllers
             await _context.SaveChangesAsync();
 
             return NoContent();
+        }
+
+        [HttpGet("statistics")]
+        public async Task<ActionResult<Dictionary<string, int>>> GetStatistics()
+        {
+            var statistics = await _context.Suppliers
+                .GroupBy(s => s.Country)
+                .Select(g => new { Country = g.Key, Count = g.Count() })
+                .ToDictionaryAsync(x => x.Country ?? "Unknown", x => x.Count);
+
+            return statistics;
         }
     }
 }

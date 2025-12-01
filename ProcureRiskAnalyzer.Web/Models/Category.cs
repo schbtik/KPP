@@ -1,10 +1,12 @@
 namespace ProcureRiskAnalyzer.Web.Models;
 
-public class Supplier
+public class Category
 {
     public int Id { get; set; }
-    public string Name { get; set; }
-    public string Country { get; set; }
+    public string Name { get; set; } = string.Empty;
+    public string Description { get; set; } = string.Empty;
 
     public ICollection<Tender> Tenders { get; set; } = new List<Tender>();
 }
+
+
