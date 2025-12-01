@@ -1,0 +1,129 @@
+@{
+    ViewData["Title"] = "Statistics";
+}
+
+<h2>Статистика тендерів</h2>
+
+<div class="row mt-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h4>Загальна вартість тендерів по категоріях</h4>
+            </div>
+            <div class="card-body">
+                <canvas id="categoryChart" width="400" height="300"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h4>Топ-10 постачальників за кількістю тендерів</h4>
+            </div>
+            <div class="card-body">
+                <canvas id="supplierChart" width="400" height="300"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script>
+        // Дані для графіка по категоріях
+        const categoryData = @Html.Raw(Json.Serialize(ViewBag.CategoryStatistics));
+        const categoryLabels = Object.keys(categoryData);
+        const categoryValues = Object.values(categoryData);
+
+        // Дані для графіка по постачальникам
+        const supplierData = @Html.Raw(Json.Serialize(ViewBag.SupplierStatistics));
+        const supplierLabels = Object.keys(supplierData);
+        const supplierValues = Object.values(supplierData);
+
+        // Графік по категоріях (Bar Chart)
+        const categoryCtx = document.getElementById('categoryChart').getContext('2d');
+        new Chart(categoryCtx, {
+            type: 'bar',
+            data: {
+                labels: categoryLabels,
+                datasets: [{
+                    label: 'Загальна вартість',
+                    data: categoryValues,
+                    backgroundColor: 'rgba(81, 43, 212, 0.8)',
+                    borderColor: 'rgba(81, 43, 212, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value) {
+                                return new Intl.NumberFormat('uk-UA', {
+                                    style: 'currency',
+                                    currency: 'UAH',
+                                    minimumFractionDigits: 0
+                                }).format(value);
+                            }
+                        }
+                    }
+                },
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return 'Вартість: ' + new Intl.NumberFormat('uk-UA', {
+                                    style: 'currency',
+                                    currency: 'UAH',
+                                    minimumFractionDigits: 0
+                                }).format(context.parsed.y);
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Графік по постачальникам (Horizontal Bar Chart)
+        const supplierCtx = document.getElementById('supplierChart').getContext('2d');
+        new Chart(supplierCtx, {
+            type: 'bar',
+            data: {
+                labels: supplierLabels,
+                datasets: [{
+                    label: 'Кількість тендерів',
+                    data: supplierValues,
+                    backgroundColor: 'rgba(0, 136, 254, 0.8)',
+                    borderColor: 'rgba(0, 136, 254, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: true,
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        ticks: {
+                            stepSize: 1
+                        }
+                    }
+                },
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return 'Кількість: ' + context.parsed.x;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+}
+
