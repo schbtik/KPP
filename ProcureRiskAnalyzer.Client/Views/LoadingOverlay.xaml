@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ProcureRiskAnalyzer.Client.Views.LoadingOverlay"
+             x:Name="loadingOverlay">
+    <Grid BackgroundColor="#80000000" 
+          x:Name="overlayGrid">
+        <Frame BackgroundColor="White" 
+               CornerRadius="15" 
+               Padding="40"
+               HorizontalOptions="Center"
+               VerticalOptions="Center"
+               WidthRequest="250"
+               HeightRequest="250"
+               HasShadow="True"
+               x:Name="loadingFrame">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                
+                <!-- Animated spinner -->
+                <Grid Grid.Row="1" 
+                      HorizontalOptions="Center"
+                      VerticalOptions="Center"
+                      x:Name="spinnerGrid">
+                    <ActivityIndicator IsRunning="True" 
+                                     Color="#512BD4"
+                                     WidthRequest="60"
+                                     HeightRequest="60"
+                                     HorizontalOptions="Center"
+                                     VerticalOptions="Center"/>
+                    
+                    <!-- Additional rotating circle animation -->
+                    <BoxView x:Name="rotatingCircle"
+                             WidthRequest="50"
+                             HeightRequest="50"
+                             CornerRadius="25"
+                             Color="#512BD4"
+                             Opacity="0.3"
+                             HorizontalOptions="Center"
+                             VerticalOptions="Center"/>
+                </Grid>
+                
+                <!-- Loading text with animation -->
+                <Label x:Name="loadingLabel"
+                       Text="Loading..." 
+                       FontSize="18"
+                       FontAttributes="Bold"
+                       TextColor="#512BD4"
+                       HorizontalOptions="Center"
+                       Grid.Row="2"
+                       Margin="0,20,0,0"/>
+                
+                <!-- Pulsing dots -->
+                <HorizontalStackLayout Grid.Row="2"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="End"
+                                       Spacing="5"
+                                       Margin="0,50,0,0"
+                                       x:Name="dotsLayout">
+                    <BoxView x:Name="dot1"
+                             WidthRequest="8"
+                             HeightRequest="8"
+                             CornerRadius="4"
+                             Color="#512BD4"
+                             Opacity="0.3"/>
+                    <BoxView x:Name="dot2"
+                             WidthRequest="8"
+                             HeightRequest="8"
+                             CornerRadius="4"
+                             Color="#512BD4"
+                             Opacity="0.3"/>
+                    <BoxView x:Name="dot3"
+                             WidthRequest="8"
+                             HeightRequest="8"
+                             CornerRadius="4"
+                             Color="#512BD4"
+                             Opacity="0.3"/>
+                </HorizontalStackLayout>
+            </Grid>
+        </Frame>
+    </Grid>
+</ContentView>
+

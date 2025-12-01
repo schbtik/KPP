@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:views="clr-namespace:ProcureRiskAnalyzer.Client.Views"
+             x:Class="ProcureRiskAnalyzer.Client.Views.MainPage"
+             Title="Home">
+    <Grid RowDefinitions="Auto,Auto,*" Padding="20">
+        <Label Text="{Binding WelcomeMessage}" 
+               FontSize="24" 
+               FontAttributes="Bold"
+               HorizontalOptions="Center"
+               Margin="0,20,0,10"
+               Grid.Row="0"/>
+        
+        <Frame Padding="10" 
+               BackgroundColor="#e8f5e9" 
+               BorderColor="#4caf50"
+               CornerRadius="5"
+               Grid.Row="1"
+               Margin="0,0,0,20"
+               IsVisible="{Binding CurrentUsername, Converter={StaticResource IsStringNotNullOrEmptyConverter}}">
+            <HorizontalStackLayout Spacing="10">
+                <Label Text="✓" 
+                       TextColor="#4caf50"
+                       FontSize="20"
+                       VerticalOptions="Center"/>
+                <Label Text="{Binding CurrentUsername, StringFormat='Logged in as: {0}'}" 
+                       FontSize="14"
+                       TextColor="#2e7d32"
+                       VerticalOptions="Center"/>
+            </HorizontalStackLayout>
+        </Frame>
+        
+        <ScrollView Grid.Row="2">
+            <VerticalStackLayout Spacing="15">
+                <Button Text="Suppliers" 
+                        Command="{Binding NavigateToSuppliersCommand}"
+                        BackgroundColor="#3498db"
+                        TextColor="White"
+                        FontSize="18"
+                        HeightRequest="60"/>
+                
+                <Button Text="Tenders" 
+                        Command="{Binding NavigateToTendersCommand}"
+                        BackgroundColor="#2ecc71"
+                        TextColor="White"
+                        FontSize="18"
+                        HeightRequest="60"/>
+                
+                <Button Text="Categories" 
+                        Command="{Binding NavigateToCategoriesCommand}"
+                        BackgroundColor="#e74c3c"
+                        TextColor="White"
+                        FontSize="18"
+                        HeightRequest="60"/>
+                
+                <Button Text="Statistics" 
+                        Command="{Binding NavigateToStatisticsCommand}"
+                        BackgroundColor="#f39c12"
+                        TextColor="White"
+                        FontSize="18"
+                        HeightRequest="60"/>
+                
+                <Button Text="About" 
+                        Command="{Binding NavigateToAboutCommand}"
+                        BackgroundColor="#9b59b6"
+                        TextColor="White"
+                        FontSize="18"
+                        HeightRequest="60"/>
+                
+                <Button Text="Profile" 
+                        Command="{Binding NavigateToProfileCommand}"
+                        BackgroundColor="#1abc9c"
+                        TextColor="White"
+                        FontSize="18"
+                        HeightRequest="60"/>
+                
+                <Button Text="Logout" 
+                        Command="{Binding LogoutCommand}"
+                        BackgroundColor="#95a5a6"
+                        TextColor="White"
+                        FontSize="18"
+                        HeightRequest="60"
+                        Margin="0,30,0,0"/>
+            </VerticalStackLayout>
+        </ScrollView>
+        
+        <views:LoadingOverlay IsVisible="{Binding IsLoading}" Grid.RowSpan="3"/>
+    </Grid>
+</ContentPage>
+
+

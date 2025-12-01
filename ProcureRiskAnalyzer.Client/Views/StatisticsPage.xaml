@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:views="clr-namespace:ProcureRiskAnalyzer.Client.Views"
+             xmlns:microcharts="clr-namespace:Microcharts.Maui;assembly=Microcharts.Maui"
+             x:Class="ProcureRiskAnalyzer.Client.Views.StatisticsPage"
+             Title="Statistics">
+    <Grid RowDefinitions="Auto,*,Auto" Padding="15">
+        <Button Text="Refresh" 
+                Command="{Binding LoadStatisticsCommand}"
+                HorizontalOptions="End"
+                Grid.Row="0"/>
+        
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Spacing="20">
+                <Label Text="Tender Statistics by Category" 
+                       FontSize="20" 
+                       FontAttributes="Bold"
+                       HorizontalOptions="Center"
+                       Margin="0,20,0,10"/>
+                
+                <microcharts:ChartView Chart="{Binding Chart}" 
+                                       HeightRequest="400"
+                                       BackgroundColor="White"/>
+                
+                <Frame Padding="15" Margin="0,20,0,0">
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="Details:" FontSize="18" FontAttributes="Bold"/>
+                        <CollectionView ItemsSource="{Binding StatisticsList}">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid ColumnDefinitions="*,Auto" Padding="5">
+                                        <Label Text="{Binding Key}" Grid.Column="0"/>
+                                        <Label Text="{Binding Value, StringFormat='{0:C}'}" 
+                                               Grid.Column="1"
+                                               FontAttributes="Bold"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </VerticalStackLayout>
+                </Frame>
+            </VerticalStackLayout>
+        </ScrollView>
+        
+        <Button Text="Back" 
+                Command="{Binding GoBackCommand}"
+                Grid.Row="2"
+                Margin="0,10,0,0"/>
+        
+        <views:LoadingOverlay IsVisible="{Binding IsLoading}" Grid.RowSpan="3"/>
+    </Grid>
+</ContentPage>
+

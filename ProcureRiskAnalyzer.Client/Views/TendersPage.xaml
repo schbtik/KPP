@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:views="clr-namespace:ProcureRiskAnalyzer.Client.Views"
+             x:Class="ProcureRiskAnalyzer.Client.Views.TendersPage"
+             Title="Tenders">
+    <Grid RowDefinitions="Auto,Auto,*,Auto" Padding="15">
+        <Button Text="Refresh" 
+                Command="{Binding LoadDataCommand}"
+                HorizontalOptions="End"
+                Grid.Row="0"/>
+        
+        <Frame Grid.Row="1" Margin="0,10,0,10" Padding="15">
+            <ScrollView>
+                <VerticalStackLayout Spacing="10">
+                    <Entry Placeholder="Tender Code" Text="{Binding TenderCode}"/>
+                    <Entry Placeholder="Buyer" Text="{Binding Buyer}"/>
+                    <DatePicker Date="{Binding Date}"/>
+                    <Entry Placeholder="Expected Value" 
+                           Text="{Binding ExpectedValue}"
+                           Keyboard="Numeric"/>
+                    <Picker Title="Supplier" 
+                            ItemsSource="{Binding Suppliers}"
+                            SelectedItem="{Binding SelectedSupplier}"
+                            ItemDisplayBinding="{Binding Name}"/>
+                    <Picker Title="Category" 
+                            ItemsSource="{Binding Categories}"
+                            SelectedItem="{Binding SelectedCategory}"
+                            ItemDisplayBinding="{Binding Name}"/>
+                    <HorizontalStackLayout Spacing="10">
+                        <Button Text="{Binding IsEditing, Converter={StaticResource BoolToTextConverter}, ConverterParameter='Update|Create'}" 
+                                Command="{Binding SaveTenderCommand}"
+                                BackgroundColor="#2ecc71"
+                                TextColor="White"/>
+                        <Button Text="Cancel" 
+                                Command="{Binding ResetFormCommand}"
+                                BackgroundColor="#95a5a6"
+                                TextColor="White"/>
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+            </ScrollView>
+        </Frame>
+        
+        <CollectionView ItemsSource="{Binding Tenders}" Grid.Row="2">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame Margin="0,5" Padding="15">
+                        <Grid ColumnDefinitions="*,Auto,Auto">
+                            <VerticalStackLayout Grid.Column="0">
+                                <Label Text="{Binding TenderCode}" FontSize="18" FontAttributes="Bold"/>
+                                <Label Text="{Binding Buyer}" FontSize="14"/>
+                                <Label Text="{Binding Date, StringFormat='{0:yyyy-MM-dd}'}" FontSize="12" TextColor="Gray"/>
+                                <Label Text="{Binding ExpectedValue, StringFormat='Value: {0:C}'}" FontSize="12" TextColor="Gray"/>
+                            </VerticalStackLayout>
+                            <Button Text="Edit" 
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type views:TendersPage}}, Path=BindingContext.EditTenderCommand}"
+                                    CommandParameter="{Binding .}"
+                                    BackgroundColor="#3498db"
+                                    TextColor="White"
+                                    Grid.Column="1"
+                                    Margin="5,0"/>
+                            <Button Text="Delete" 
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type views:TendersPage}}, Path=BindingContext.DeleteTenderCommand}"
+                                    CommandParameter="{Binding .}"
+                                    BackgroundColor="#e74c3c"
+                                    TextColor="White"
+                                    Grid.Column="2"
+                                    Margin="5,0"/>
+                        </Grid>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+        
+        <Button Text="Back" 
+                Command="{Binding GoBackCommand}"
+                Grid.Row="3"
+                Margin="0,10,0,0"/>
+        
+        <views:LoadingOverlay IsVisible="{Binding IsLoading}" Grid.RowSpan="4"/>
+    </Grid>
+</ContentPage>
+

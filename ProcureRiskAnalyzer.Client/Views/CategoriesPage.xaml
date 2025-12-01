@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:views="clr-namespace:ProcureRiskAnalyzer.Client.Views"
+             x:Class="ProcureRiskAnalyzer.Client.Views.CategoriesPage"
+             Title="Categories">
+    <Grid RowDefinitions="Auto,Auto,*,Auto" Padding="15">
+        <Button Text="Refresh" 
+                Command="{Binding LoadCategoriesCommand}"
+                HorizontalOptions="End"
+                Grid.Row="0"/>
+        
+        <Frame Grid.Row="1" Margin="0,10,0,10" Padding="15">
+            <VerticalStackLayout Spacing="10">
+                <Entry Placeholder="Name" Text="{Binding Name}"/>
+                <Editor Placeholder="Description" 
+                        Text="{Binding Description}"
+                        HeightRequest="100"/>
+                <HorizontalStackLayout Spacing="10">
+                    <Button Text="{Binding IsEditing, Converter={StaticResource BoolToTextConverter}, ConverterParameter='Update|Create'}" 
+                            Command="{Binding SaveCategoryCommand}"
+                            BackgroundColor="#2ecc71"
+                            TextColor="White"/>
+                    <Button Text="Cancel" 
+                            Command="{Binding ResetFormCommand}"
+                            BackgroundColor="#95a5a6"
+                            TextColor="White"/>
+                </HorizontalStackLayout>
+            </VerticalStackLayout>
+        </Frame>
+        
+        <CollectionView ItemsSource="{Binding Categories}" Grid.Row="2">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame Margin="0,5" Padding="15">
+                        <Grid ColumnDefinitions="*,Auto,Auto">
+                            <VerticalStackLayout Grid.Column="0">
+                                <Label Text="{Binding Name}" FontSize="18" FontAttributes="Bold"/>
+                                <Label Text="{Binding Description}" FontSize="14" TextColor="Gray"/>
+                            </VerticalStackLayout>
+                            <Button Text="Edit" 
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type views:CategoriesPage}}, Path=BindingContext.EditCategoryCommand}"
+                                    CommandParameter="{Binding .}"
+                                    BackgroundColor="#3498db"
+                                    TextColor="White"
+                                    Grid.Column="1"
+                                    Margin="5,0"/>
+                            <Button Text="Delete" 
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type views:CategoriesPage}}, Path=BindingContext.DeleteCategoryCommand}"
+                                    CommandParameter="{Binding .}"
+                                    BackgroundColor="#e74c3c"
+                                    TextColor="White"
+                                    Grid.Column="2"
+                                    Margin="5,0"/>
+                        </Grid>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+        
+        <Button Text="Back" 
+                Command="{Binding GoBackCommand}"
+                Grid.Row="3"
+                Margin="0,10,0,0"/>
+        
+        <views:LoadingOverlay IsVisible="{Binding IsLoading}" Grid.RowSpan="4"/>
+    </Grid>
+</ContentPage>
+
+
